@@ -1,6 +1,11 @@
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addActivity } from "../features/toDoSlice";
 
 export const ToDo = () => {
+  const toDoList = useSelector((state) => state.todo);
+  const dispatch = useDispatch();
+
   const [toDoText, setToDoText] = useState("");
 
   const handleChange = (e) => {
@@ -11,12 +16,13 @@ export const ToDo = () => {
     <div>
       <div>
         <input type="text" value={toDoText} onChange={handleChange} />
-        <button>Add</button>
+        <button onClick={() => dispatch(addActivity(toDoText))}>Add</button>
       </div>
+      <p>{toDoText}</p>
       <ul>
-        <li>{toDoText}</li>
-        <li>Item 2</li>
-        <li>Item 3</li>
+        {toDoList.map((activity, id) => (
+          <li key={id}>{activity}</li>
+        ))}
       </ul>
     </div>
   );
